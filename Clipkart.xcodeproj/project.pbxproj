@@ -23,9 +23,9 @@
 		F23DA79F2CD3613100B2A92A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23DA79E2CD3613100B2A92A /* SettingsView.swift */; };
 		F23DA7A12CD3614900B2A92A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23DA7A02CD3614900B2A92A /* Constants.swift */; };
 		F23DA7A42CD3616A00B2A92A /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F23DA7A22CD3616A00B2A92A /* Model.xcdatamodeld */; };
-		F23DA7A62CD361A300B2A92A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F23DA7A52CD361A300B2A92A /* LaunchScreen.storyboard */; };
 		F23DA7A82CD361C300B2A92A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F23DA7A72CD361C300B2A92A /* Localizable.strings */; };
 		F29C74882CD367E600D1C3F3 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C74872CD367E600D1C3F3 /* LoginViewModel.swift */; };
+		F2E246202CD4F609000DA945 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2E2461F2CD4F609000DA945 /* LaunchScreen.storyboard */; };
 		F2EB01572CD3C8640019CB89 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EB01562CD3C8640019CB89 /* ProfileViewModel.swift */; };
 		F2EB015A2CD3C88F0019CB89 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EB01592CD3C88F0019CB89 /* LoginView.swift */; };
 		F2EB015C2CD3C8A60019CB89 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EB015B2CD3C8A60019CB89 /* CreateAccountView.swift */; };
@@ -72,9 +72,9 @@
 		F23DA79E2CD3613100B2A92A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F23DA7A02CD3614900B2A92A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F23DA7A32CD3616A00B2A92A /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		F23DA7A52CD361A300B2A92A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../../../../LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F23DA7A72CD361C300B2A92A /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		F29C74872CD367E600D1C3F3 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		F2E2461F2CD4F609000DA945 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../../../../../Desktop/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F2EB01562CD3C8640019CB89 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		F2EB01592CD3C88F0019CB89 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F2EB015B2CD3C8A60019CB89 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
@@ -204,7 +204,7 @@
 		F23DA7892CD3605400B2A92A /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				F23DA7A52CD361A300B2A92A /* LaunchScreen.storyboard */,
+				F2E2461F2CD4F609000DA945 /* LaunchScreen.storyboard */,
 				F23DA7A02CD3614900B2A92A /* Constants.swift */,
 				F23DA7A22CD3616A00B2A92A /* Model.xcdatamodeld */,
 				F23DA7A72CD361C300B2A92A /* Localizable.strings */,
@@ -337,8 +337,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F23DA7A62CD361A300B2A92A /* LaunchScreen.storyboard in Resources */,
 				F23DA7A82CD361C300B2A92A /* Localizable.strings in Resources */,
+				F2E246202CD4F609000DA945 /* LaunchScreen.storyboard in Resources */,
 				F23DA7642CD35FD400B2A92A /* Preview Assets.xcassets in Resources */,
 				F23DA7612CD35FD400B2A92A /* Assets.xcassets in Resources */,
 			);
