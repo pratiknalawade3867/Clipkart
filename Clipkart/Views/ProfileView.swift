@@ -3,61 +3,67 @@
 //  Clipkart
 //
 //  Created by pratik.nalawade on 28/10/24.
-//
+
 
 import SwiftUI
 import CoreData
 
 struct ProfileView: View {
-    @StateObject var viewModel = ProfileViewModel()
+    @ObservedObject var viewModel = ProfileViewModel()
+    @State private var isAccountDeleted: Bool = false
     @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(entity: User.entity(), sortDescriptors: [])
+    private var users: FetchedResults<User>
     
     var body: some View {
         TabView {
-            List {
-                Section {
-                    HStack(spacing: 16) {
-                        Text(viewModel.email.isEmpty ? "No Email" : viewModel.email)
-                            .font(.title)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.white)
-                            .frame(width: 70, height: 70)
-                            .background(Color(.lightGray))
-                            .clipShape(Circle())
-                        
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(viewModel.email.isEmpty ? "No Email" : viewModel.email)
-                                .font(.headline)
-                                .fontWeight(.semibold)
+            NavigationStack {
+                List {
+                    Section {
+                        if let user = users.first {
+                            HStack(spacing: 16) {
+                                Text(user.email ?? ViewStrings.blank.getText())
+                                    .font(.title)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.white)
+                                    .frame(width: 70, height: 70)
+                                    .background(Color(.lightGray))
+                                    .clipShape(Circle())
+                                
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(user.email ?? "noth")
+                                        .font(.headline)
+                                        .fontWeight(.semibold)
+                                    
+                                    Text(viewModel.email)
+                                        .font(.footnote)
+                                }
+                            }
                             
-                            Text(viewModel.email.isEmpty ? "No Email" : viewModel.email)
-                                .font(.footnote)
+                            Button {
+                                Task {
+                                    await deleteAccount(user: user)
+                                }
+                            } label: {
+                                Label {
+                                    Text("Delete Account")
+                                        .foregroundStyle(.black)
+                                } icon: {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundStyle(.red)
+                                }
+                            }
                         }
                     }
                 }
-        
-                Button {
-                    Task {
-                        //       await authViewModel.deleteAccount()
-                    }
-                } label: {
-                    Label {
-                        Text("Delete Account")
-                            .foregroundStyle(.black)
-                    } icon: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.red)
-                    }
-                }
+                .navigationTitle("Profile")
+                .navigationBarBackButtonHidden(true)
             }
-            .navigationTitle("Profile")
-            .navigationBarBackButtonHidden(true)
             .tabItem {
                 Image(systemName: "person.fill")
                 Text("Profile")
             }
             
-            // Settings Tab
             NavigationStack {
                 SettingsView()
                     .navigationTitle("Settings")
@@ -68,33 +74,25 @@ struct ProfileView: View {
                 Text("Settings")
             }
         }
-        .onAppear {
-            loadUserProfile() // Load user data when the view appears
-        }
-
+        .background(
+            NavigationLink(destination: LoginView(), isActive: $isAccountDeleted) {
+                EmptyView()
+            }
+        )
     }
     
-    func loadUserProfile() {
-        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
-        // Debugging: Print the email being used in the fetch request
-        print("Fetching user with email: \(viewModel.email)")
-        
-        fetchRequest.predicate = NSPredicate(format: "email == %@", viewModel.email)
+    private func deleteAccount(user: User) async {
+        viewContext.delete(user)
         
         do {
-            let users = try viewContext.fetch(fetchRequest)
-            if let user = users.first {
-                viewModel.email = user.email ?? "No Email"
-                print("Fetched user email: \(viewModel.email)") // Print the fetched email
-            } else {
-                print("No user found with email: \(viewModel.email)")
-            }
+            try viewContext.save()
+            isAccountDeleted = true
         } catch {
-            print("Failed to fetch users: \(error.localizedDescription)")
+            // Handle the error (e.g., show an alert)
+            print("Failed to delete user: \(error.localizedDescription)")
         }
     }
 }
-
 
 #Preview {
     ProfileView()
