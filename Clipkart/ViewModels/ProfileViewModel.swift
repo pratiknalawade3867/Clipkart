@@ -9,4 +9,7 @@ import Foundation
 
 class ProfileViewModel: ObservableObject {
     @Published var email: String = ""
+    @Published var password: String = ""
+    
+    // Other properties and methods...
 }

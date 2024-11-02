@@ -79,22 +79,25 @@ struct LoginView: View {
     }
     
     private func login() {
+        guard !viewModel.email.isEmpty, !viewModel.password.isEmpty else {
+            viewModel.loginFailed = true
+            viewModel.alertMessage = "Please fill some detail!"
+            return
+        }
+        
         let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "email == %@ AND password == %@", viewModel.email, viewModel.password)
         
         do {
             let users = try viewContext.fetch(fetchRequest)
-            if users.isEmpty {
+            if let user = users.first {
+                viewModel.email = user.email ?? "" // Set the email here
+                viewModel.isLoggedIn = true
+                print("Login successful for user: \(user.email ?? "Unknown")")
+            } else {
                 viewModel.loginFailed = true
                 viewModel.alertMessage = "Unknown user!"
-                print("Login Fail! for \(viewModel.email) \(viewModel.password) ")
-            } else if viewModel.email.isEmpty || viewModel.password.isEmpty {
-                viewModel.loginFailed = true
-                viewModel.alertMessage = "Please fill some detail!"
-            } else {
-                // Handle successful login (e.g., navigate to the next view)
-                viewModel.isLoggedIn = true
-                print("Login successful! \(viewModel.email) \(viewModel.password) ")
+                print("Login failed for \(viewModel.email)")
             }
         } catch {
             viewModel.loginFailed = true
