@@ -31,11 +31,11 @@ struct ProfileView: View {
                                     .clipShape(Circle())
                                 
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(user.email ?? "noth")
+                                    Text(user.fullname?.uppercased() ?? "noth")
                                         .font(.headline)
                                         .fontWeight(.semibold)
                                     
-                                    Text(viewModel.email)
+                                    Text(user.email?.lowercased() ?? ViewStrings.blank.getText())
                                         .font(.footnote)
                                 }
                             }
