@@ -35,7 +35,20 @@ struct LoginView: View {
                         text: $viewModel.password
                     )
                     // forgot button
-                    forgotButton
+                    
+                    NavigationLink(destination: ForgotPasswordView()) {
+                        HStack {
+                            Spacer()
+                            Button {
+                                
+                            } label: {
+                                Text("Forgot Password?")
+                                    .foregroundStyle(.gray)
+                                    .font(.subheadline)
+                                    .fontWeight(.medium)
+                            }
+                        }
+                    }
                     
                     // login button
                     
@@ -116,20 +129,6 @@ private var titleView: some View {
     Text("Let's Connect With US!")
         .font(.title2)
         .fontWeight(.semibold)
-}
-
-private var forgotButton: some View {
-    HStack {
-        Spacer()
-        Button {
-            
-        } label: {
-            Text("Forgot Password?")
-                .foregroundStyle(.gray)
-                .font(.subheadline)
-                .fontWeight(.medium)
-        }
-    }
 }
 
 private var line: some View {

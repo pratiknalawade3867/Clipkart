@@ -80,13 +80,14 @@ struct CreateAccountView: View {
         let newUser = User(context: viewContext)
         newUser.email = viewModel.email
         newUser.password = viewModel.password
+        newUser.fullname = viewModel.fullName
         
         do {
             try viewContext.save()
             registrationSuccess = true
-            if (newUser.email != "") && (newUser.password != "") {
+            if (newUser.email != "") && (newUser.password != "") && (newUser.fullname != "") {
                 alertMessage = "User saved!"
-                print("User saved as \(viewModel.email) \(viewModel.password)")
+                print("User saved as \(viewModel.email) \(viewModel.password) \(viewModel.fullName)")
             } else {
                 alertMessage = "Please fill user!"
                 
@@ -118,7 +119,6 @@ struct InputView: View {
             }else {
                 TextField(placeholder, text: $text)
             }
-            
             Divider()
         }
     }

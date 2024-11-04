@@ -33,6 +33,7 @@
 		F2EB01612CD3C8F10019CB89 /* ProductRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EB01602CD3C8F10019CB89 /* ProductRowView.swift */; };
 		F2EB01632CD3C8FF0019CB89 /* ProductDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EB01622CD3C8FF0019CB89 /* ProductDetailsView.swift */; };
 		F2EB01652CD3C90A0019CB89 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EB01642CD3C90A0019CB89 /* CartView.swift */; };
+		F2F8CA562CD71A610067029F /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F8CA552CD71A610067029F /* ForgotPasswordView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		F2EB01602CD3C8F10019CB89 /* ProductRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRowView.swift; sourceTree = "<group>"; };
 		F2EB01622CD3C8FF0019CB89 /* ProductDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsView.swift; sourceTree = "<group>"; };
 		F2EB01642CD3C90A0019CB89 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
+		F2F8CA552CD71A610067029F /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +219,7 @@
 			children = (
 				F2EB01592CD3C88F0019CB89 /* LoginView.swift */,
 				F2EB015B2CD3C8A60019CB89 /* CreateAccountView.swift */,
+				F2F8CA552CD71A610067029F /* ForgotPasswordView.swift */,
 			);
 			path = "Login-Setup";
 			sourceTree = "<group>";
@@ -383,6 +386,7 @@
 				F23DA75D2CD35FD100B2A92A /* ClipkartApp.swift in Sources */,
 				F23DA79F2CD3613100B2A92A /* SettingsView.swift in Sources */,
 				F2EB01652CD3C90A0019CB89 /* CartView.swift in Sources */,
+				F2F8CA562CD71A610067029F /* ForgotPasswordView.swift in Sources */,
 				F2EB01632CD3C8FF0019CB89 /* ProductDetailsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
