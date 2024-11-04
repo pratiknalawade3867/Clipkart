@@ -10,6 +10,7 @@ import Foundation
 class ProfileViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var password: String = ""
+    @Published var isAccountDeleted: Bool = false
     
     // Other properties and methods...
 }

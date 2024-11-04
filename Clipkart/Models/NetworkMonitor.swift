@@ -57,7 +57,6 @@ internal class NetworkMonitor {
         } else if path.usesInterfaceType(.cellular) {
             return .cellular
         }
-        
         return .unknown
     }
 }

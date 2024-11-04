@@ -10,9 +10,11 @@ import CoreData
 
 struct ContentView: View {
     let persistenceController = PersistenceController.shared
+    @StateObject private var cartManager = CartManager()
     var body: some View {
         LoginView()
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            .environmentObject(cartManager) // Provide the CartManager to the environment
     }
 }
 

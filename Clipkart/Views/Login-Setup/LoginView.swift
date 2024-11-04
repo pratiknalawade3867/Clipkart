@@ -25,37 +25,32 @@ struct LoginView: View {
                     
                     // textfields
                     InputView(
-                        placeholder: "Email and Phone number!",
+                        placeholder: ViewStrings.emailPlaceholder.getText(),
                         text: $viewModel.email
                     )
                     
                     InputView(
-                        placeholder: "Password",
+                        placeholder: ViewStrings.passwordTxt.getText(),
                         isSecureField: true,
                         text: $viewModel.password
                     )
-                    // forgot button
                     
-                    NavigationLink(destination: ForgotPasswordView()) {
-                        HStack {
-                            Spacer()
-                            Button {
-                                
-                            } label: {
-                                Text("Forgot Password?")
-                                    .foregroundStyle(.gray)
-                                    .font(.subheadline)
-                                    .fontWeight(.medium)
-                            }
+                    // forgot button
+                    HStack {
+                        Spacer()
+                        Button(ViewStrings.forgotPassTxt.getText()) {
+                            viewModel.showingResetPassword = true
                         }
+                        .foregroundStyle(.gray)
+                        .font(.subheadline)
+                        .fontWeight(.medium)
                     }
                     
                     // login button
-                    
                     Button(action: {
                         login()
                     }) {
-                        Text("Login")
+                        Text(ViewStrings.loginBtn.getText())
                             .fontWeight(.bold)
                             .font(.headline) // Change font size
                             .foregroundColor(.green) // Text color
@@ -73,7 +68,7 @@ struct LoginView: View {
                 //footer view
                 NavigationLink(destination: CreateAccountView()) {
                     HStack {
-                        Text("Don't have an account?")
+                        Text(ViewStrings.donthaveaccTxt.getText())
                             .foregroundStyle(.black)
                         Text("Sign Up")
                             .foregroundStyle(.teal)
@@ -87,14 +82,17 @@ struct LoginView: View {
         .padding(.vertical, 8)
         .navigationBarBackButtonHidden(true)
         .alert(isPresented: $viewModel.loginFailed) {
-            Alert(title: Text("Alert"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
+            Alert(title: Text(ViewStrings.alertTxt.getText()), message: Text(viewModel.alertMessage), dismissButton: .default(Text(ViewStrings.okTxt.getText())))
+        }
+        .sheet(isPresented: $viewModel.showingResetPassword) {
+            ForgotPasswordView(email: viewModel.email)
         }
     }
     
     private func login() {
         guard !viewModel.email.isEmpty, !viewModel.password.isEmpty else {
             viewModel.loginFailed = true
-            viewModel.alertMessage = "Please fill some detail!"
+            viewModel.alertMessage = ViewStrings.alertFillDetails.getText()
             return
         }
         
@@ -109,7 +107,7 @@ struct LoginView: View {
                 print("Login successful for user: \(user.email ?? "Unknown")")
             } else {
                 viewModel.loginFailed = true
-                viewModel.alertMessage = "Unknown user!"
+                viewModel.alertMessage = ViewStrings.unknownuserTxt.getText()
                 print("Login failed for \(viewModel.email)")
             }
         } catch {
@@ -126,7 +124,7 @@ private var logo: some View {
 }
 
 private var titleView: some View {
-    Text("Let's Connect With US!")
+    Text(ViewStrings.welcomeMessage.getText())
         .font(.title2)
         .fontWeight(.semibold)
 }
@@ -146,7 +144,7 @@ private var bottomView: some View {
 private var lineorView: some View {
     HStack(spacing: 16) {
         line
-        Text("or")
+        Text(ViewStrings.orLbl.getText())
             .fontWeight(.semibold)
         line
     }
@@ -157,20 +155,18 @@ private var appleButton: some View {
     Button {
         
     } label: {
-        Label("Sign up with Apple", systemImage: "apple.logo")
+        Label(ViewStrings.signupApple.getText(), systemImage: "apple.logo")
     }
     .buttonStyle(.bordered)
 }
 
 private var googleButton: some View {
-    Button {
-        
-    } label: {
+    Button {} label: {
         HStack {
             Image("google")
                 .resizable()
                 .frame(width: 15, height: 15)
-            Text("Sign up with Google")
+            Text(ViewStrings.signupGoogle.getText())
         }
     }
 }

@@ -10,7 +10,6 @@ import CoreData
 
 struct ProfileView: View {
     @ObservedObject var viewModel = ProfileViewModel()
-    @State private var isAccountDeleted: Bool = false
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(entity: User.entity(), sortDescriptors: [])
     private var users: FetchedResults<User>
@@ -46,7 +45,7 @@ struct ProfileView: View {
                                 }
                             } label: {
                                 Label {
-                                    Text("Delete Account")
+                                    Text(ViewStrings.deleteAccountTxt.getText())
                                         .foregroundStyle(.black)
                                 } icon: {
                                     Image(systemName: "xmark.circle.fill")
@@ -56,26 +55,26 @@ struct ProfileView: View {
                         }
                     }
                 }
-                .navigationTitle("Profile")
+                .navigationTitle(ViewStrings.profileLbl.getText())
                 .navigationBarBackButtonHidden(true)
             }
             .tabItem {
                 Image(systemName: "person.fill")
-                Text("Profile")
+                Text(ViewStrings.profileLbl.getText())
             }
             
             NavigationStack {
                 SettingsView()
-                    .navigationTitle("Settings")
+                    .navigationTitle(ViewStrings.settingLbl.getText())
                     .navigationBarBackButtonHidden(true)
             }
             .tabItem {
                 Image(systemName: "gearshape.fill")
-                Text("Settings")
+                Text(ViewStrings.settingLbl.getText())
             }
         }
         .background(
-            NavigationLink(destination: LoginView(), isActive: $isAccountDeleted) {
+            NavigationLink(destination: LoginView(), isActive: $viewModel.isAccountDeleted) {
                 EmptyView()
             }
         )
@@ -86,7 +85,7 @@ struct ProfileView: View {
         
         do {
             try viewContext.save()
-            isAccountDeleted = true
+            viewModel.isAccountDeleted = true
         } catch {
             // Handle the error (e.g., show an alert)
             print("Failed to delete user: \(error.localizedDescription)")

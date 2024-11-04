@@ -11,6 +11,8 @@ struct ProductDetailsView: View {
     
     var products: [Product] = []
     @State var index: Int
+    @EnvironmentObject var cartManager: CartManager
+    @State private var cartAdded: Bool = false
     
     var body: some View {
         VStack(spacing: 16) {
@@ -29,12 +31,15 @@ struct ProductDetailsView: View {
                 .multilineTextAlignment(.trailing)
                 
                 Spacer()
-                
-                //                AsyncImageView(imageURL: products[index].image)
-                //                    .scaledToFit()
-                //                    .frame(height: 300)
-                //
-                //                Spacer()
+                Button(action: {
+                    cartManager.addToCart(product: products[index])
+                    cartAdded = true
+                }, label: {
+                    Image(systemName: "heart.circle.fill")
+                        .foregroundColor(.gray)
+                        .bold()
+                })
+                Spacer()
                 
                 Button(action: {
                     withAnimation {
@@ -49,7 +54,6 @@ struct ProductDetailsView: View {
                 .multilineTextAlignment(.trailing)
                 
             }
-            
             
             Text(products[index].title)
                 .font(.headline)
@@ -103,6 +107,13 @@ struct ProductDetailsView: View {
             .clipShape(.buttonBorder)
         }
         .padding()
+        .background(
+            // Conditional NavigationLink
+            NavigationLink(destination: CartView().environmentObject(cartManager), isActive: $cartAdded) {
+                EmptyView()
+            }
+                .hidden() // Hide the navigation link
+        )
     }
     
 }

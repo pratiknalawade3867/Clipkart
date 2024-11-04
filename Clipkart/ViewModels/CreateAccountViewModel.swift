@@ -15,5 +15,18 @@ class CreateAccountViewModel: ObservableObject {
     @Published var fullName: String = ""
     @Published var password: String = ""
     @Published var confirmPassword: String = ""
+    @Published var registrationSuccess: Bool = false
+    @Published var registrationFail: Bool = false
+    @Published var alertMessage: String = ""
+    @Published var emailError: String?
+    @Published var fullNameError: String?
     
+    func validateFields() -> Bool {
+        let isValid = true
+        
+        emailError = email.isEmpty ? "Email is required" : nil
+        fullNameError = fullName.isEmpty ? "Full Name is required" : nil
+        
+        return isValid
+    }
 }
