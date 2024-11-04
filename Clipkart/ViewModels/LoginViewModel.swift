@@ -14,4 +14,5 @@ class LoginViewModel: ObservableObject {
     @Published var loginFailed: Bool = false
     @Published var isLoggedIn: Bool = false
     @Published var alertMessage: String = ""
+    @Published var showingResetPassword = false
 }

@@ -6,99 +6,52 @@
 //
 
 import SwiftUI
-
-import SwiftUI
 import CoreData
 
 struct ForgotPasswordView: View {
-    
-    @Environment(\.managedObjectContext) private var viewContext
-    @State private var email: String = ""
-    @State private var newPassword: String = "" // New password input
-    @State private var isError: Bool = false // Track error state
-    @State private var successMessage: String? // Track success message
-    @Environment(\.dismiss) var dismiss  // For dismissing the view
+    @Environment(\.managedObjectContext) private var context
+    @State var email: String
+    @State private var newPassword: String = ""
+    @State private var message: String?
     
     var body: some View {
-        VStack(alignment: .leading) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Reset Password")
-                    .font(.largeTitle)
-                
-                Text("Enter the email associated with your account and your new password.")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+        VStack {
+            TextField("User Email", text: $email)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            
+            TextField("New Password", text: $newPassword)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            
+            Button("Reset Password") {
+                resetPassword()
             }
-            .padding(.bottom, 32)
+            .padding()
             
-            InputView(placeholder: "Enter your email", text: $email)
-                .padding(.bottom, 16)
-            
-            InputView(placeholder: "Enter your new password", text: $newPassword) // Secure input for password
-                .padding(.bottom, 16)
-            
-            Button {
-                Task {
-                    await resetPassword(by: email, newPassword: newPassword)
-                }
-            } label: {
-                Text("Reset Password")
-            }
-            .buttonStyle(.bordered)
-            .disabled(email.isEmpty || newPassword.isEmpty) // Disable button if fields are empty
-            
-            // Show success or error message
-            if let message = successMessage {
+            if let message = message {
                 Text(message)
                     .foregroundColor(.green)
-                    .padding(.top, 8)
             }
-            
-            if isError {
-                Text("Failed to reset password. Please check your email.")
-                    .foregroundColor(.red)
-                    .padding(.top, 8)
-            }
-            
-            Spacer()
         }
         .padding()
-        .toolbarRole(.editor)
-        .onAppear {
-            email = ""
-            newPassword = ""
-            isError = false
-            successMessage = nil
-        }
-        .alert(isPresented: $isError) {
-            Alert(title: Text("Alert"), message: Text(successMessage ?? ""), dismissButton: .default(Text("OK")) {
-                dismiss()
-            })
-        }
     }
     
-    // MARK: - Reset Password Function
-    private func resetPassword(by email: String, newPassword: String) async {
+    private func resetPassword() {
+        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "email == %@", email)
+        
         do {
-            let request: NSFetchRequest<User> = User.fetchRequest()
-            request.predicate = NSPredicate(format: "email == %@", email)
-            let users = try viewContext.fetch(request)
-            
-            // Check if user exists
+            let users = try context.fetch(fetchRequest)
             if let user = users.first {
-                user.password = newPassword // Update the user's password
-                try viewContext.save() // Save the context
-                successMessage = "Password reset successfully!" // Set success message
+                user.password = newPassword
+                try context.save()
+                message = "Password reset successfully!"
             } else {
-                isError = true // No user found with the provided email
+                message = "User not found."
             }
         } catch {
-            isError = true // Set error state
-            print("Error resetting password: \(error.localizedDescription)") // Log the error
+            message = "Failed to reset password."
         }
     }
-}
-
-#Preview {
-    ForgotPasswordView()
 }

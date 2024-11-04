@@ -9,31 +9,39 @@ import SwiftUI
 
 struct CreateAccountView: View {
     @StateObject var viewModel = CreateAccountViewModel()
-    @State private var registrationSuccess: Bool = false
-    @State private var alertMessage: String = ""
     @Environment(\.dismiss) var dismiss  // For dismissing the view
     @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {
         VStack(spacing: 16) {
-            Text("Please complete all information to create an account.")
+            Text(ViewStrings.createAccountWelcomeMsg.getText())
                 .font(.headline).fontWeight(.medium)
                 .foregroundStyle(.gray)
                 .multilineTextAlignment(.center)
                 .padding(.vertical)
             
             InputView(
-                placeholder: "Email or Phone number",
+                placeholder: "Email or Phone number *",
                 text: $viewModel.email
             )
+            if let emailError = viewModel.emailError {
+                Text(emailError)
+                    .font(.footnote)
+                    .foregroundColor(.red)
+            }
             
             InputView(
-                placeholder: "Full Name",
+                placeholder: "Full Name *",
                 text: $viewModel.fullName
             )
+            if let fullNameError = viewModel.fullNameError {
+                Text(fullNameError)
+                    .font(.footnote)
+                    .foregroundColor(.red)
+            }
             
             InputView(
-                placeholder: "Password",
+                placeholder: ViewStrings.passwordTxt.getText(),
                 isSecureField: true,
                 text: $viewModel.password
             )
@@ -58,6 +66,7 @@ struct CreateAccountView: View {
             Spacer()
             
             Button {
+                viewModel.validateFields()
                 register()
             } label: {
                 Text("Create Account")
@@ -68,8 +77,8 @@ struct CreateAccountView: View {
         .navigationTitle("Set up your account")
         .toolbarRole(.editor)
         .padding()
-        .alert(isPresented: $registrationSuccess) {
-            Alert(title: Text("Alert"), message: Text(alertMessage), dismissButton: .default(Text("OK")) {
+        .alert(isPresented: $viewModel.registrationSuccess) {
+            Alert(title: Text(ViewStrings.alertTxt.getText()), message: Text(viewModel.alertMessage), dismissButton: .default(Text(ViewStrings.okTxt.getText())) {
                 dismiss()
             })
         }
@@ -84,13 +93,12 @@ struct CreateAccountView: View {
         
         do {
             try viewContext.save()
-            registrationSuccess = true
             if (newUser.email != "") && (newUser.password != "") && (newUser.fullname != "") {
-                alertMessage = "User saved!"
+                viewModel.alertMessage = "User saved!"
+                viewModel.registrationSuccess = true
                 print("User saved as \(viewModel.email) \(viewModel.password) \(viewModel.fullName)")
             } else {
-                alertMessage = "Please fill user!"
-                
+                viewModel.alertMessage = "Please fill user!"
             }
         } catch {
             print("Failed to save user: \(error.localizedDescription)")
@@ -100,7 +108,6 @@ struct CreateAccountView: View {
     var isValidPassword: Bool {
         viewModel.confirmPassword == viewModel.password
     }
-    
 }
 
 #Preview {

@@ -11,11 +11,11 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("Work in progress...")
+                Text(ViewStrings.workinprogressLbl.getText())
                     .font(.largeTitle)
                     .padding()
             }
-            .navigationTitle("Settings")
+            .navigationTitle(ViewStrings.settingLbl.getText())
             .navigationBarBackButtonHidden(true)
         }
     }

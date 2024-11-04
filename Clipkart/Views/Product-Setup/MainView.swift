@@ -11,6 +11,7 @@ struct MainView: View {
     @StateObject var viewModel = ProductViewModel()
     @State private var isMenuOpen = false
     @State private var isCart = false
+    @EnvironmentObject var cartManager: CartManager
     
     var body: some View {
         ZStack {
@@ -52,7 +53,7 @@ struct MainView: View {
                 }
             }
             .background(
-                NavigationLink(destination: CartView(), isActive: $isCart) {
+                NavigationLink(destination: CartView().environmentObject(cartManager), isActive: $isCart) {
                     EmptyView()
                 }
                     .hidden() // Hide the navigation link
@@ -84,7 +85,7 @@ struct SideMenu: View {
                 // Handle Settings action
                 isMenuOpen = false // Close menu after selection
             }) {
-                Text("My Wishlist")
+                Text(ViewStrings.mywishlistLbl.getText())
                     .font(.headline) // Change font size
                     .foregroundColor(.white) // Text color
                     .padding() // Internal padding
@@ -98,7 +99,7 @@ struct SideMenu: View {
                 // Handle Settings action
                 isExplore = true // will go to setting and profile
             }) {
-                Text("Explore")
+                Text(ViewStrings.exploreLbl.getText())
                     .font(.headline) // Change font size
                     .foregroundColor(.white) // Text color
                     .padding() // Internal padding
@@ -116,7 +117,7 @@ struct SideMenu: View {
                 // Handle Settings action
                 isMenuOpen = false // Close menu after selection
             }) {
-                Text("Sell on clipkart")
+                Text(ViewStrings.sellonflipkartLbl.getText())
                     .font(.headline) // Change font size
                     .foregroundColor(.white) // Text color
                     .padding() // Internal padding
@@ -130,7 +131,7 @@ struct SideMenu: View {
                 // Handle Settings action
                 isMenuOpen = false // Close menu after selection
             }) {
-                Text("Feedback")
+                Text(ViewStrings.feedbackLbl.getText())
                     .font(.headline) // Change font size
                     .foregroundColor(.white) // Text color
                     .padding() // Internal padding
@@ -144,7 +145,7 @@ struct SideMenu: View {
                 // Handle Settings action
                 isMenuOpen = false // Close menu after selection
             }) {
-                Text("Help Bot")
+                Text(ViewStrings.helpbotLbl.getText())
                     .font(.headline) // Change font size
                     .foregroundColor(.white) // Text color
                     .padding() // Internal padding
@@ -158,7 +159,7 @@ struct SideMenu: View {
                 // Handle Settings action
                 isLogOut = true // Close user session
             }) {
-                Text("Log Out")
+                Text(ViewStrings.logoutBtn.getText())
                     .font(.headline) // Change font size
                     .foregroundColor(.white) // Text color
                     .padding() // Internal padding
@@ -174,7 +175,7 @@ struct SideMenu: View {
             Spacer()
         }
         .frame(width: 290)
-        .background(Color.gray.opacity(0.9))
+        .background(Color.gray.opacity(0.5))
         .cornerRadius(185) // Optional: add corner radius for a softer look
         .edgesIgnoringSafeArea(.vertical)
         .onTapGesture {

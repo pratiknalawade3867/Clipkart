@@ -15,7 +15,6 @@ struct Product: Decodable{
     let image: String
     let price: Double
     let rating: Rate
-    
 }
 
 struct Rate: Codable {
