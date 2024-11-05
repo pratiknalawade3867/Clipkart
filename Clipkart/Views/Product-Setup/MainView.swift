@@ -65,6 +65,15 @@ struct MainView: View {
                     .zIndex(1) // Ensure the side menu is above the tab view
                     .offset(x: -50) // Adjust this value to move the menu further left
             }
+            // ProgressView while loading
+            if viewModel.isLoading {
+                ProgressView("Loading...")
+                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                    .scaleEffect(1.5) // Make the spinner larger
+                    .padding()
+                    .background(Color.white.opacity(0.7))
+                    .cornerRadius(10)
+            }
         }
         .animation(.easeInOut, value: isMenuOpen)
         .task {
@@ -85,13 +94,23 @@ struct SideMenu: View {
                 // Handle Settings action
                 isMenuOpen = false // Close menu after selection
             }) {
-                Text(ViewStrings.mywishlistLbl.getText())
-                    .font(.headline) // Change font size
-                    .foregroundColor(.white) // Text color
-                    .padding() // Internal padding
-                    .background(Color.black) // Background color
-                    .cornerRadius(120) // Rounded corners
+                HStack {
+                    // Wish symbol (heart icon)
+                    Image(systemName: "heart.fill") // You can also use "heart" if you want an empty heart
+                        .font(.title) // Icon size
+                        .foregroundColor(.white) // Icon color
+                    
+                    // Text
+                    Text(ViewStrings.mywishlistLbl.getText())
+                        .font(.headline) // Change font size
+                        .foregroundColor(.white) // Text color
+                        .padding(.leading, 8) // Space between icon and text
+                }
+                .padding() // Internal padding
+                .background(Color.black) // Background color
+                .cornerRadius(120) // Rounded corners
             }
+            
             .padding() // Outer padding to separate from other views
             .frame(maxWidth: .infinity, alignment: .leading) // Align to the leading edge
             
@@ -99,13 +118,23 @@ struct SideMenu: View {
                 // Handle Settings action
                 isExplore = true // will go to setting and profile
             }) {
-                Text(ViewStrings.exploreLbl.getText())
-                    .font(.headline) // Change font size
-                    .foregroundColor(.white) // Text color
-                    .padding() // Internal padding
-                    .background(Color.black) // Background color
-                    .cornerRadius(120) // Rounded corners
+                HStack {
+                    // Explore symbol (magnifying glass icon)
+                    Image(systemName: "magnifyingglass") // You can also use "app.glyph" or other icons based on your preference
+                        .font(.title) // Icon size
+                        .foregroundColor(.white) // Icon color
+                    
+                    // Text
+                    Text(ViewStrings.exploreLbl.getText())
+                        .font(.headline) // Change font size
+                        .foregroundColor(.white) // Text color
+                        .padding(.leading, 8) // Space between icon and text
+                }
+                .padding() // Internal padding
+                .background(Color.black) // Background color
+                .cornerRadius(120) // Rounded corners
             }
+            
             .padding() // Outer padding to separate from other views
             .frame(maxWidth: .infinity, alignment: .leading) // Align to the leading edge
             
@@ -117,13 +146,23 @@ struct SideMenu: View {
                 // Handle Settings action
                 isMenuOpen = false // Close menu after selection
             }) {
-                Text(ViewStrings.sellonflipkartLbl.getText())
-                    .font(.headline) // Change font size
-                    .foregroundColor(.white) // Text color
-                    .padding() // Internal padding
-                    .background(Color.black) // Background color
-                    .cornerRadius(120) // Rounded corners
+                HStack {
+                    // Sell/Market symbol (dollar sign)
+                    Image(systemName: "dollarsign.circle.fill") // Icon for selling or market
+                        .font(.title) // Icon size
+                        .foregroundColor(.white) // Icon color
+                    
+                    // Text
+                    Text(ViewStrings.sellonflipkartLbl.getText())
+                        .font(.headline) // Change font size
+                        .foregroundColor(.white) // Text color
+                        .padding(.leading, 8) // Space between icon and text
+                }
+                .padding() // Internal padding
+                .background(Color.black) // Background color
+                .cornerRadius(120) // Rounded corners
             }
+            
             .padding() // Outer padding to separate from other views
             .frame(maxWidth: .infinity, alignment: .leading) // Align to the leading edge
             
@@ -131,13 +170,23 @@ struct SideMenu: View {
                 // Handle Settings action
                 isMenuOpen = false // Close menu after selection
             }) {
-                Text(ViewStrings.feedbackLbl.getText())
-                    .font(.headline) // Change font size
-                    .foregroundColor(.white) // Text color
-                    .padding() // Internal padding
-                    .background(Color.black) // Background color
-                    .cornerRadius(120) // Rounded corners
+                HStack {
+                    // Feedback symbol (speech bubble icon)
+                    Image(systemName: "bubble.left.fill") // Icon for feedback
+                        .font(.title) // Icon size
+                        .foregroundColor(.white) // Icon color
+                    
+                    // Text
+                    Text(ViewStrings.feedbackLbl.getText())
+                        .font(.headline) // Change font size
+                        .foregroundColor(.white) // Text color
+                        .padding(.leading, 8) // Space between icon and text
+                }
+                .padding() // Internal padding
+                .background(Color.black) // Background color
+                .cornerRadius(120) // Rounded corners
             }
+            
             .padding() // Outer padding to separate from other views
             .frame(maxWidth: .infinity, alignment: .leading) // Align to the leading edge
             
@@ -145,13 +194,23 @@ struct SideMenu: View {
                 // Handle Settings action
                 isMenuOpen = false // Close menu after selection
             }) {
-                Text(ViewStrings.helpbotLbl.getText())
-                    .font(.headline) // Change font size
-                    .foregroundColor(.white) // Text color
-                    .padding() // Internal padding
-                    .background(Color.black) // Background color
-                    .cornerRadius(120) // Rounded corners
+                HStack {
+                    // Help symbol (question mark icon)
+                    Image(systemName: "questionmark.circle.fill") // Icon for help
+                        .font(.title) // Icon size
+                        .foregroundColor(.white) // Icon color
+                    
+                    // Text
+                    Text(ViewStrings.helpbotLbl.getText())
+                        .font(.headline) // Change font size
+                        .foregroundColor(.white) // Text color
+                        .padding(.leading, 8) // Space between icon and text
+                }
+                .padding() // Internal padding
+                .background(Color.black) // Background color
+                .cornerRadius(120) // Rounded corners
             }
+            
             .padding() // Outer padding to separate from other views
             .frame(maxWidth: .infinity, alignment: .leading) // Align to the leading edge
             
@@ -159,13 +218,23 @@ struct SideMenu: View {
                 // Handle Settings action
                 isLogOut = true // Close user session
             }) {
-                Text(ViewStrings.logoutBtn.getText())
-                    .font(.headline) // Change font size
-                    .foregroundColor(.white) // Text color
-                    .padding() // Internal padding
-                    .background(Color.black) // Background color
-                    .cornerRadius(120) // Rounded corners
+                HStack {
+                    // Exit symbol (icon)
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title) // Icon size
+                        .foregroundColor(.white) // Icon color
+                    
+                    // Text
+                    Text(ViewStrings.logoutBtn.getText())
+                        .font(.headline) // Change font size
+                        .foregroundColor(.white) // Text color
+                        .padding(.leading, 8) // Space between icon and text
+                }
+                .padding() // Internal padding
+                .background(Color.black) // Background color
+                .cornerRadius(120) // Rounded corners
             }
+            
             .padding() // Outer padding to separate from other views
             .frame(maxWidth: .infinity, alignment: .leading) // Align to the leading edge
             

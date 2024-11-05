@@ -11,14 +11,18 @@ class ProductViewModel: ObservableObject {
     
     @Published var products: [Product] = []
     private let manager = APIManager()
+    @Published var isLoading = true // Add loading state
     @Published var isNetClosed: Bool = false
     
     func fetchProducts() async {
         do {
             products = try await manager.request(url: "https://fakestoreapi.com/products")
+            // Once the data is loaded, hide the progress view
+            isLoading = false
             print(products)
         }catch {
             isNetClosed = true
+            isLoading = false
             //  print("Fetch Product error:", error)
         }
     }
