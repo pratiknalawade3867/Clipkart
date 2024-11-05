@@ -6,27 +6,52 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct CartView: View {
     @EnvironmentObject var cartManager: CartManager
+    @Environment(\.managedObjectContext) private var viewContext
     @State private var emptycart: Bool = false
-
+    
     var body: some View {
-        List {
-            ForEach(cartManager.cartItems, id: \.id) { product in
-                NavigationLink(destination: ProductDetailsView(products: cartManager.cartItems, index: 0)) {
-                    ProductRowView(product: product)
+        VStack{
+            // Check if the cart is empty and show the alert
+            if cartManager.cartItems.isEmpty {
+                VStack{
+                    Spacer()
+                    Text("Your cart is empty")
+                        .foregroundColor(.gray)
+                        .padding()
+                    Spacer()
                 }
             }
-//            if cartManager.cartItems.isEmpty {
-//                emptycart = true
-//            }
+            
+            List {
+                ForEach(cartManager.cartItems, id: \.id) { product in
+                    NavigationLink(destination: ProductDetailsView(products: cartManager.cartItems, index: 0)) {
+                        ProductRowView(product: product)
+                    }
+                }
+                .onDelete(perform: deleteItems)
+            }
+            .listStyle(.plain)
+            .navigationTitle("Cart")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .listStyle(.plain)
-        .navigationTitle("Cart")
-        .navigationBarTitleDisplayMode(.inline)
-        .alert(isPresented: $emptycart) {
-            Alert(title: Text(ViewStrings.alertTxt.getText()), message: Text("Your cart is empty"), dismissButton: .default(Text(ViewStrings.okTxt.getText())))
+        .onAppear {
+            // If the cart is empty, show the alert
+            if cartManager.cartItems.isEmpty {
+                emptycart = true
+            }
+        }
+    }
+    private func deleteItems(at offsets: IndexSet) {
+        // Removing products from the cart manager
+        cartManager.cartItems.remove(atOffsets: offsets)
+        
+        // Check if the cart is empty after the deletion
+        if cartManager.cartItems.isEmpty {
+            emptycart = true
         }
     }
 }
@@ -37,7 +62,17 @@ class CartManager: ObservableObject {
     @Published var cartItems: [Product] = []
     
     func addToCart(product: Product) {
-        cartItems.append(product)
+        if !cartItems.contains(where: { $0.id == product.id }) {
+            cartItems.append(product)
+        }
+    }
+    
+    func removeFromCart(product: Product) {
+        cartItems.removeAll { $0.id == product.id }
+    }
+    
+    func isProductInCart(_ product: Product) -> Bool {
+        return cartItems.contains { $0.id == product.id }
     }
 }
 

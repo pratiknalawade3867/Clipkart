@@ -1,10 +1,3 @@
-//
-//  ProfileView.swift
-//  Clipkart
-//
-//  Created by pratik.nalawade on 28/10/24.
-
-
 import SwiftUI
 import CoreData
 

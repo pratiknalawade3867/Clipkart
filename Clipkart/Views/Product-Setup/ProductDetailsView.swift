@@ -13,6 +13,7 @@ struct ProductDetailsView: View {
     @State var index: Int
     @EnvironmentObject var cartManager: CartManager
     @State private var cartAdded: Bool = false
+    @State private var gotoCart: Bool = false
     
     var body: some View {
         VStack(spacing: 16) {
@@ -32,12 +33,19 @@ struct ProductDetailsView: View {
                 
                 Spacer()
                 Button(action: {
-                    cartManager.addToCart(product: products[index])
-                    cartAdded = true
+                    let product = products[index]
+                    if cartManager.isProductInCart(product) {
+                        cartManager.removeFromCart(product: product)
+                        cartAdded = false
+                    } else {
+                        cartManager.addToCart(product: product)
+                        cartAdded = true
+                    }
                 }, label: {
-                    Image(systemName: "heart.circle.fill")
-                        .foregroundColor(.gray)
-                        .bold()
+                    Image(systemName: cartManager.isProductInCart(products[index]) ? "heart.fill" : "heart")
+                        .imageScale(.large)
+                        .fontWeight(.bold)
+                        .foregroundColor(cartManager.isProductInCart(products[index]) ? Color.green : Color.gray)
                 })
                 Spacer()
                 
@@ -107,9 +115,20 @@ struct ProductDetailsView: View {
             .clipShape(.buttonBorder)
         }
         .padding()
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: {
+                    gotoCart = true
+                }) {
+                    Image(systemName: "cart")
+                        .font(.title2)
+                        .foregroundColor(.black)
+                }
+            }
+        }
         .background(
             // Conditional NavigationLink
-            NavigationLink(destination: CartView().environmentObject(cartManager), isActive: $cartAdded) {
+            NavigationLink(destination: CartView().environmentObject(cartManager), isActive: $gotoCart) {
                 EmptyView()
             }
                 .hidden() // Hide the navigation link
